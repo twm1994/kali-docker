@@ -1,8 +1,5 @@
 # original file: https://github.com/LiveOverflow/pwn_docker_example/blob/master/challenge/Dockerfile
 
-# sudo docker build -t system_health_check .
-# sudo docker run -d -p 1024:1024 --rm -it system_health_check
-
 FROM kalilinux/kali-rolling:latest
 
 # user, group, etc.
@@ -31,21 +28,9 @@ RUN chsh -s /bin/zsh $USR
 
 COPY --chown=$USR:$GRP .zshrc .
 
-#RUN $ZSH -c /home/$USR/.zshrc
-
-# optional kali tools, spilt into multi commits for fast rebuild in case of typos
-RUN apt-get install -y dnsenum dnsmap dnswalk
-
-# wireshark, sslh are installed interactively
-# RUN apt-get install -y wireshark sslh
-
-RUN apt-get install -y binwalk radare2 gdb
-
-#RUN apt-get install -y metasploit-framework
-
-RUN apt-get install -y python3 git man-db
+# optional kali tools
+RUN apt-get install -y dnsenum dnsmap dnswalk binwalk radare2 gdb python3 python3-pip git man-db john zip ziptool zlib1g zlib1g-dev build-essential jq strace ltrace curl wget gcc dnsutils netcat gcc-multilib
 
 USER $USR
 
 ENTRYPOINT ["/bin/zsh"]
-#CMD ./ynetd -p 1024 ./system_health_check
